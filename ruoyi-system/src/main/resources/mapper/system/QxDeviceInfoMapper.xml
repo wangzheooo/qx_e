@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.QxDeviceInfoMapper">
+
+    <resultMap type="QxDeviceInfo" id="QxDeviceInfoResult">
+        <result property="seq" column="seq"/>
+        <result property="deviceId" column="device_id"/>
+        <result property="deviceName" column="device_name"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="deviceDescription" column="device_description"/>
+        <result property="deviceAddr" column="device_addr"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+        <result property="networkStatus" column="network_status"/>
+        <result property="isEnable" column="is_enable"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createUser" column="create_user"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="modifyUser" column="modify_user"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <sql id="selectQxDeviceInfoVo">
+        select seq, device_id, device_name, channel_id, device_description, device_addr, longitude, latitude, network_status, is_enable, remarks, create_date, create_user, modify_date, modify_user, version from qx_device_info
+    </sql>
+
+    <select id="selectQxDeviceInfoList" parameterType="QxDeviceInfo" resultMap="QxDeviceInfoResult">
+        <include refid="selectQxDeviceInfoVo"/>
+        <where>
+            <if test="deviceId != null  and deviceId != ''">and device_id like concat('%', #{deviceId}, '%')</if>
+            <if test="deviceName != null  and deviceName != ''">and device_name like concat('%', #{deviceName}, '%')
+            </if>
+            <if test="channelId != null  and channelId != ''">and channel_id like concat('%', #{channelId}, '%')</if>
+            <if test="deviceDescription != null  and deviceDescription != ''">and device_description like concat('%',
+                #{deviceDescription}, '%')
+            </if>
+            <if test="deviceAddr != null  and deviceAddr != ''">and device_addr like concat('%', #{deviceAddr}, '%')
+            </if>
+            <if test="longitude != null ">and longitude = #{longitude}</if>
+            <if test="latitude != null ">and latitude = #{latitude}</if>
+            <if test="networkStatus != null  and networkStatus != ''">and network_status = #{networkStatus}</if>
+            <if test="isEnable != null  and isEnable != ''">and is_enable = #{isEnable}</if>
+            <if test="remarks != null  and remarks != ''">and remarks = #{remarks}</if>
+            <if test="createDate != null ">and create_date = #{createDate}</if>
+            <if test="createUser != null  and createUser != ''">and create_user = #{createUser}</if>
+            <if test="modifyDate != null ">and modify_date = #{modifyDate}</if>
+            <if test="modifyUser != null  and modifyUser != ''">and modify_user = #{modifyUser}</if>
+            <if test="version != null  and version != ''">and version = #{version}</if>
+        </where>
+    </select>
+
+    <select id="selectQxDeviceInfoListFirstEnable" parameterType="QxDeviceInfo" resultMap="QxDeviceInfoResult">
+        select seq, device_id, device_name, channel_id, device_description, device_addr, longitude, latitude, network_status, is_enable, remarks, create_date, create_user, modify_date, modify_user, version from qx_device_info where 1=1 and device_id = #{deviceId}
+    </select>
+
+    <select id="selectQxDeviceInfoById" parameterType="Integer" resultMap="QxDeviceInfoResult">
+        <include refid="selectQxDeviceInfoVo"/>
+        where seq = #{seq}
+    </select>
+
+    <insert id="insertQxDeviceInfo" parameterType="QxDeviceInfo" useGeneratedKeys="true" keyProperty="seq">
+        insert into qx_device_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">device_id,</if>
+            <if test="deviceName != null  and deviceName != ''">device_name,</if>
+            <if test="channelId != null  and channelId != ''">channel_id,</if>
+            <if test="deviceDescription != null  and deviceDescription != ''">device_description,</if>
+            <if test="deviceAddr != null  and deviceAddr != ''">device_addr,</if>
+            <if test="longitude != null ">longitude,</if>
+            <if test="latitude != null ">latitude,</if>
+            <if test="networkStatus != null  and networkStatus != ''">network_status,</if>
+            <if test="isEnable != null  and isEnable != ''">is_enable,</if>
+            <if test="remarks != null  and remarks != ''">remarks,</if>
+            <if test="createDate != null ">create_date,</if>
+            <if test="createUser != null  and createUser != ''">create_user,</if>
+            <if test="modifyDate != null ">modify_date,</if>
+            <if test="modifyUser != null  and modifyUser != ''">modify_user,</if>
+            <if test="version != null  and version != ''">version,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">#{deviceId},</if>
+            <if test="deviceName != null  and deviceName != ''">#{deviceName},</if>
+            <if test="channelId != null  and channelId != ''">#{channelId},</if>
+            <if test="deviceDescription != null  and deviceDescription != ''">#{deviceDescription},</if>
+            <if test="deviceAddr != null  and deviceAddr != ''">#{deviceAddr},</if>
+            <if test="longitude != null ">#{longitude},</if>
+            <if test="latitude != null ">#{latitude},</if>
+            <if test="networkStatus != null  and networkStatus != ''">#{networkStatus},</if>
+            <if test="isEnable != null  and isEnable != ''">#{isEnable},</if>
+            <if test="remarks != null  and remarks != ''">#{remarks},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="createUser != null  and createUser != ''">#{createUser},</if>
+            <if test="modifyDate != null ">#{modifyDate},</if>
+            <if test="modifyUser != null  and modifyUser != ''">#{modifyUser},</if>
+            <if test="version != null  and version != ''">#{version},</if>
+        </trim>
+    </insert>
+
+    <update id="updateQxDeviceInfo" parameterType="QxDeviceInfo">
+        update qx_device_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">device_id = #{deviceId},</if>
+            <if test="deviceName != null  and deviceName != ''">device_name = #{deviceName},</if>
+            <if test="channelId != null  and channelId != ''">channel_id = #{channelId},</if>
+            <if test="deviceDescription != null  and deviceDescription != ''">device_description =
+                #{deviceDescription},
+            </if>
+            <if test="deviceAddr != null  and deviceAddr != ''">device_addr = #{deviceAddr},</if>
+            <if test="longitude != null ">longitude = #{longitude},</if>
+            <if test="latitude != null ">latitude = #{latitude},</if>
+            <if test="networkStatus != null  and networkStatus != ''">network_status = #{networkStatus},</if>
+            <if test="isEnable != null  and isEnable != ''">is_enable = #{isEnable},</if>
+            <if test="remarks != null  and remarks != ''">remarks = #{remarks},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+            <if test="createUser != null  and createUser != ''">create_user = #{createUser},</if>
+            <if test="modifyDate != null ">modify_date = #{modifyDate},</if>
+            <if test="modifyUser != null  and modifyUser != ''">modify_user = #{modifyUser},</if>
+            <if test="version != null  and version != ''">version = #{version},</if>
+        </trim>
+        where seq = #{seq}
+    </update>
+
+    <delete id="deleteQxDeviceInfoById" parameterType="Integer">
+        delete from qx_device_info where seq = #{seq}
+    </delete>
+
+    <delete id="deleteQxDeviceInfoByIds" parameterType="String">
+        delete from qx_device_info where seq in
+        <foreach item="seq" collection="array" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+    </delete>
+
+</mapper>

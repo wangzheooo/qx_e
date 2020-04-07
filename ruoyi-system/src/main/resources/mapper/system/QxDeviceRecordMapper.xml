@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.QxDeviceRecordMapper">
+    
+    <resultMap type="QxDeviceRecord" id="QxDeviceRecordResult">
+        <result property="seq"    column="seq"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="type"    column="type"    />
+        <result property="createDate"    column="create_date"    />
+    </resultMap>
+
+    <sql id="selectQxDeviceRecordVo">
+        select seq, device_id, type, create_date from qx_device_record
+    </sql>
+
+    <select id="selectQxDeviceRecordList" parameterType="QxDeviceRecord" resultMap="QxDeviceRecordResult">
+        <include refid="selectQxDeviceRecordVo"/>
+        <where>  
+            <if test="deviceId != null  and deviceId != ''"> and device_id like concat('%', #{deviceId}, '%')</if>
+            <if test="type != null  and type != ''"> and type like concat('%', #{type}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+        </where>
+        order by create_date desc
+    </select>
+    
+    <select id="selectQxDeviceRecordById" parameterType="Integer" resultMap="QxDeviceRecordResult">
+        <include refid="selectQxDeviceRecordVo"/>
+        where seq = #{seq}
+    </select>
+        
+    <insert id="insertQxDeviceRecord" parameterType="QxDeviceRecord" useGeneratedKeys="true" keyProperty="seq">
+        insert into qx_device_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">device_id,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="createDate != null ">create_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">#{deviceId},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="createDate != null ">#{createDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateQxDeviceRecord" parameterType="QxDeviceRecord">
+        update qx_device_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deviceId != null  and deviceId != ''">device_id = #{deviceId},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="createDate != null ">create_date = #{createDate},</if>
+        </trim>
+        where seq = #{seq}
+    </update>
+
+    <delete id="deleteQxDeviceRecordById" parameterType="Integer">
+        delete from qx_device_record where seq = #{seq}
+    </delete>
+
+    <delete id="deleteQxDeviceRecordByIds" parameterType="String">
+        delete from qx_device_record where seq in 
+        <foreach item="seq" collection="array" open="(" separator="," close=")">
+            #{seq}
+        </foreach>
+    </delete>
+    
+</mapper>
